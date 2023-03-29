@@ -12,55 +12,55 @@ namespace MyProjectSql.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class ElevesController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public EmployeesController(DataContext context)
+        public ElevesController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Employees
+        // GET: api/Eleves
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Eleve>>> GetEleves()
         {
-          if (_context.Employees == null)
+          if (_context.Eleves == null)
           {
               return NotFound();
           }
-            return await _context.Employees.ToListAsync();
+            return await _context.Eleves.ToListAsync();
         }
 
-        // GET: api/Employees/5
+        // GET: api/Eleves/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<Eleve>> GetEleve(int id)
         {
-          if (_context.Employees == null)
+          if (_context.Eleves == null)
           {
               return NotFound();
           }
-            var employee = await _context.Employees.FindAsync(id);
+            var eleve = await _context.Eleves.FindAsync(id);
 
-            if (employee == null)
+            if (eleve == null)
             {
                 return NotFound();
             }
 
-            return employee;
+            return eleve;
         }
 
-        // PUT: api/Employees/5
+        // PUT: api/Eleves/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public async Task<IActionResult> PutEleve(int id, Eleve eleve)
         {
-            if (id != employee.Id)
+            if (id != eleve.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
+            _context.Entry(eleve).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace MyProjectSql.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeExists(id))
+                if (!EleveExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +81,44 @@ namespace MyProjectSql.Controllers
             return NoContent();
         }
 
-        // POST: api/Employees
+        // POST: api/Eleves
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public async Task<ActionResult<Eleve>> PostEleve(Eleve eleve)
         {
-          if (_context.Employees == null)
+          if (_context.Eleves == null)
           {
-              return Problem("Entity set 'DataContext.Employees'  is null.");
+              return Problem("Entity set 'DataContext.Eleves'  is null.");
           }
-            _context.Employees.Add(employee);
+            _context.Eleves.Add(eleve);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
+            return CreatedAtAction("GetEleve", new { id = eleve.Id }, eleve);
         }
 
-        // DELETE: api/Employees/5
+        // DELETE: api/Eleves/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
+        public async Task<IActionResult> DeleteEleve(int id)
         {
-            if (_context.Employees == null)
+            if (_context.Eleves == null)
             {
                 return NotFound();
             }
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            var eleve = await _context.Eleves.FindAsync(id);
+            if (eleve == null)
             {
                 return NotFound();
             }
 
-            _context.Employees.Remove(employee);
+            _context.Eleves.Remove(eleve);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool EmployeeExists(int id)
+        private bool EleveExists(int id)
         {
-            return (_context.Employees?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Eleves?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

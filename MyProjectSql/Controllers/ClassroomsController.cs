@@ -12,55 +12,55 @@ namespace MyProjectSql.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class ClassroomsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public EmployeesController(DataContext context)
+        public ClassroomsController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Employees
+        // GET: api/Classrooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Classroom>>> GetClassrooms()
         {
-          if (_context.Employees == null)
+          if (_context.Classrooms == null)
           {
               return NotFound();
           }
-            return await _context.Employees.ToListAsync();
+            return await _context.Classrooms.ToListAsync();
         }
 
-        // GET: api/Employees/5
+        // GET: api/Classrooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<Classroom>> GetClassroom(int id)
         {
-          if (_context.Employees == null)
+          if (_context.Classrooms == null)
           {
               return NotFound();
           }
-            var employee = await _context.Employees.FindAsync(id);
+            var classroom = await _context.Classrooms.FindAsync(id);
 
-            if (employee == null)
+            if (classroom == null)
             {
                 return NotFound();
             }
 
-            return employee;
+            return classroom;
         }
 
-        // PUT: api/Employees/5
+        // PUT: api/Classrooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public async Task<IActionResult> PutClassroom(int id, Classroom classroom)
         {
-            if (id != employee.Id)
+            if (id != classroom.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
+            _context.Entry(classroom).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace MyProjectSql.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeExists(id))
+                if (!ClassroomExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +81,44 @@ namespace MyProjectSql.Controllers
             return NoContent();
         }
 
-        // POST: api/Employees
+        // POST: api/Classrooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public async Task<ActionResult<Classroom>> PostClassroom(Classroom classroom)
         {
-          if (_context.Employees == null)
+          if (_context.Classrooms == null)
           {
-              return Problem("Entity set 'DataContext.Employees'  is null.");
+              return Problem("Entity set 'DataContext.Classrooms'  is null.");
           }
-            _context.Employees.Add(employee);
+            _context.Classrooms.Add(classroom);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
+            return CreatedAtAction("GetClassroom", new { id = classroom.Id }, classroom);
         }
 
-        // DELETE: api/Employees/5
+        // DELETE: api/Classrooms/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
+        public async Task<IActionResult> DeleteClassroom(int id)
         {
-            if (_context.Employees == null)
+            if (_context.Classrooms == null)
             {
                 return NotFound();
             }
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            var classroom = await _context.Classrooms.FindAsync(id);
+            if (classroom == null)
             {
                 return NotFound();
             }
 
-            _context.Employees.Remove(employee);
+            _context.Classrooms.Remove(classroom);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool EmployeeExists(int id)
+        private bool ClassroomExists(int id)
         {
-            return (_context.Employees?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Classrooms?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

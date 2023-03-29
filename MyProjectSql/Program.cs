@@ -1,32 +1,46 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MyProjectSql.Data;
+
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews() ;
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MyprojectDbtContext>(Options => Options.UseNpgsql(
-    builder.Configuration.GetConnectionString("PostgreSQL")
-    ));
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL"));
+});
+
+// Enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowSpecificOrigins,
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
-
-
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
-
-app.UseRouting();
+app.UseCors(myAllowSpecificOrigins);
 
 app.UseAuthorization();
 

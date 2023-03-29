@@ -12,55 +12,55 @@ namespace MyProjectSql.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class ProfesseursController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public EmployeesController(DataContext context)
+        public ProfesseursController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Employees
+        // GET: api/Professeurs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Professeur>>> GetTeachers()
         {
-          if (_context.Employees == null)
+          if (_context.Teachers == null)
           {
               return NotFound();
           }
-            return await _context.Employees.ToListAsync();
+            return await _context.Teachers.ToListAsync();
         }
 
-        // GET: api/Employees/5
+        // GET: api/Professeurs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<Professeur>> GetProfesseur(int id)
         {
-          if (_context.Employees == null)
+          if (_context.Teachers == null)
           {
               return NotFound();
           }
-            var employee = await _context.Employees.FindAsync(id);
+            var professeur = await _context.Teachers.FindAsync(id);
 
-            if (employee == null)
+            if (professeur == null)
             {
                 return NotFound();
             }
 
-            return employee;
+            return professeur;
         }
 
-        // PUT: api/Employees/5
+        // PUT: api/Professeurs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public async Task<IActionResult> PutProfesseur(int id, Professeur professeur)
         {
-            if (id != employee.Id)
+            if (id != professeur.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
+            _context.Entry(professeur).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace MyProjectSql.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeExists(id))
+                if (!ProfesseurExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +81,44 @@ namespace MyProjectSql.Controllers
             return NoContent();
         }
 
-        // POST: api/Employees
+        // POST: api/Professeurs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public async Task<ActionResult<Professeur>> PostProfesseur(Professeur professeur)
         {
-          if (_context.Employees == null)
+          if (_context.Teachers == null)
           {
-              return Problem("Entity set 'DataContext.Employees'  is null.");
+              return Problem("Entity set 'DataContext.Teachers'  is null.");
           }
-            _context.Employees.Add(employee);
+            _context.Teachers.Add(professeur);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
+            return CreatedAtAction("GetProfesseur", new { id = professeur.Id }, professeur);
         }
 
-        // DELETE: api/Employees/5
+        // DELETE: api/Professeurs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
+        public async Task<IActionResult> DeleteProfesseur(int id)
         {
-            if (_context.Employees == null)
+            if (_context.Teachers == null)
             {
                 return NotFound();
             }
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            var professeur = await _context.Teachers.FindAsync(id);
+            if (professeur == null)
             {
                 return NotFound();
             }
 
-            _context.Employees.Remove(employee);
+            _context.Teachers.Remove(professeur);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool EmployeeExists(int id)
+        private bool ProfesseurExists(int id)
         {
-            return (_context.Employees?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Teachers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
